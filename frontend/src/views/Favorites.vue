@@ -42,7 +42,10 @@
 		},
 		computed: {
 			favorites() {
-				return this.$store.state.favorites.favorites;
+				return this.$store.state.favorites.favorites.data;
+			},
+			results() {
+				return this.$store.state.favorites.result;
 			},
 		},
 		created() {
@@ -51,28 +54,32 @@
 		methods: {
 			async loadFavorites() {
 				this.loading = true;
-				try {
-					await this.$store.dispatch('favorites/fetchFavorites');
-				} catch (error) {
-					this.$toast.error(error.response?.data?.message || 'Failed to load favorites');
-				} finally {
-					this.loading = false;
+				await this.$store.dispatch('favorites/fetchFavorites');
+				this.loading = false;
+				if (this.results.success === false) {
+					this.$toast.error(this.results.message || 'Failed to load favorites');
 				}
 			},
 			async handleUpdateFavorite({ id, notes }) {
-				try {
-					await this.$store.dispatch('favorites/updateFavorite', { id, notes });
+				this.loading = true;
+				await this.$store.dispatch('favorites/updateFavorite', { id, notes });
+				this.loading = false;
+				if (this.results.success) {
+					this.loadFavorites();
 					this.$toast.success('Note updated successfully!');
-				} catch (error) {
-					this.$toast.error(error.response?.data?.message || 'Failed to update note');
+				} else {
+					this.$toast.error(this.results?.message || 'Failed to update note');
 				}
 			},
 			async handleDeleteFavorite(id) {
-				try {
-					await this.$store.dispatch('favorites/deleteFavorite', id);
-					this.$toast.success('Word removed from favorites');
-				} catch (error) {
-					this.$toast.error(error.response?.data?.message || 'Failed to delete favorite');
+				this.loading = true;
+				await this.$store.dispatch('favorites/deleteFavorite', id);
+				this.loading = false;
+				if (this.results.success) {
+					this.$toast.success(this.results.message);
+					this.loadFavorites();
+				} else {
+					this.$toast.error(this.results.message || 'Failed to delete favorite');
 				}
 			},
 		},

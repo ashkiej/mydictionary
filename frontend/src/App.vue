@@ -1,7 +1,9 @@
 <template>
-	<div class="min-h-screen">
-		<NavBar />
-		<main class="container">
+	<div class="min-h-screen bg-gray-50">
+		<template v-if="!['Login', 'Register'].includes($route.name)">
+			<NavBar />
+		</template>
+		<main class="container mx-auto">
 			<router-view />
 		</main>
 		<NotificationToast />

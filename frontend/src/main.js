@@ -69,6 +69,7 @@ const toastPlugin = {
 
 // Use plugins and mount app
 app.use(store)
+store.dispatch('auth/loadUser')
 app.use(router)
 app.use(toastPlugin)
 app.mount('#app')

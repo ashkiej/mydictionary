@@ -32,6 +32,7 @@ class FavoriteController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
+                'success' => false,
                 'message' => 'Validation error',
                 'errors' => $validator->errors(),
             ], 422);
@@ -45,7 +46,8 @@ class FavoriteController extends Controller
         if ($existingFavorite) {
             return response()->json([
                 'success' => false,
-                'message' => 'Word already in favorites'
+                'message' => 'Word already in favorites',
+                'data' => $existingFavorite
             ], 409);
         }
 
@@ -74,6 +76,7 @@ class FavoriteController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
+                'success' => false,
                 'message' => 'Validation error',
                 'errors' => $validator->errors()
             ], 422);

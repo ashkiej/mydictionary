@@ -94,7 +94,7 @@ router.beforeEach(async (to, from, next) => {
     store.commit('SET_LOADING', true)
 
     try {
-        await store.dispatch('auth/user')
+        await store.dispatch('auth/loadUser')
         const isAuthenticated = store.getters['auth/isAuthenticated']
 
         if (to.matched.some(record => record.meta.requiresAuth)) {

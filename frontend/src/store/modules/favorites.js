@@ -3,23 +3,21 @@ import api from '@/api'
 export default {
     namespaced: true,
     state: {
-        favorites: []
+        favorites: [],
+        result: {}
     },
     mutations: {
-        SET_FAVORITES(state, favorites) {
-            state.favorites = favorites
+        SET_FAVORITES(state, res) {
+            state.favorites = res || []
         },
-        ADD_FAVORITE(state, favorite) {
-            state.favorites.unshift(favorite)
+        ADD_FAVORITE(state, res) {
+            state.result = res
         },
-        UPDATE_FAVORITE(state, updatedFavorite) {
-            const index = state.favorites.findIndex(f => f.id === updatedFavorite.id)
-            if (index !== -1) {
-                state.favorites.splice(index, 1, updatedFavorite)
-            }
+        UPDATE_FAVORITE(state, res) {
+            state.result = res
         },
-        REMOVE_FAVORITE(state, id) {
-            state.favorites = state.favorites.filter(f => f.id !== id)
+        REMOVE_FAVORITE(state, res) {
+            state.result = res
         }
     },
     actions: {
@@ -36,8 +34,8 @@ export default {
             commit('UPDATE_FAVORITE', response.data)
         },
         async deleteFavorite({ commit }, id) {
-            await api.delete(`/api/favorites/${id}`)
-            commit('REMOVE_FAVORITE', id)
+           const response = await api.delete(`/api/favorites/${id}`)
+            commit('REMOVE_FAVORITE', response.data)
         }
     }
 }

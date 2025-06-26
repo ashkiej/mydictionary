@@ -83,6 +83,11 @@
 				error: null,
 			};
 		},
+		computed: {
+			results() {
+				return this.$store.state.favorites.result;
+			},
+		},
 		methods: {
 			async searchWord() {
 				if (!this.searchTerm.trim()) return;
@@ -123,16 +128,14 @@
 			},
 
 			async handleSaveWord(wordData) {
-				try {
-					await this.$store.dispatch('favorites/addFavorite', wordData);
+				await this.$store.dispatch('favorites/addFavorite', wordData);
+				if (this.results.success) {
 					this.$toast.success(`"${wordData.word}" saved to favorites!`);
-				} catch (error) {
-					console.error('Save error:', error);
-
-					if (error.response?.status === 409) {
+				} else {
+					if (this.results?.message === 'Word already in favorites') {
 						this.$toast.warning(`"${wordData.word}" is already in your favorites`);
 					} else {
-						this.$toast.error(error.response?.data?.message || 'Failed to save word');
+						this.$toast.error(this.results.message || 'Failed to save word');
 					}
 				}
 			},

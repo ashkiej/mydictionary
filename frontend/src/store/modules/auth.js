@@ -53,7 +53,7 @@ export default {
         loadUser({ commit }) {
             const token = localStorage.getItem('authToken')
             if (token) {
-                return api.get('/api/user')
+                return api.get('/api/auth/loadUser')
                     .then(response => {
                         commit('SET_USER', response.data)
                         commit('SET_TOKEN', token)
