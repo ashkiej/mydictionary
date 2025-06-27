@@ -2,8 +2,9 @@ import { createStore } from 'vuex';
 import auth from './modules/auth';
 import dictionary from './modules/dictionary';
 import favorites from './modules/favorites';
+import api from '@/api'
 
-export default createStore({
+const store = createStore({
     state: {
         loading: false
     },
@@ -12,9 +13,20 @@ export default createStore({
             state.loading = value
         }
     },
+    getters: {
+        isLoading: state => state.loading,
+        // ...other getters
+    },
     modules: {
         auth,
         dictionary,
         favorites
     }
+})
+
+// Subscribe to the loading bus
+api.loadingBus.on(isLoading => {
+    store.commit('SET_LOADING', isLoading)
 });
+
+export default store
