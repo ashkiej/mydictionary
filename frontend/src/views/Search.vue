@@ -107,8 +107,6 @@
 					} else {
 						this.searchResults = null;
 					}
-
-					console.log('Search results:', this.searchResults);
 				} catch (error) {
 					console.error('Search error:', error);
 
@@ -149,14 +147,6 @@
 				if (this.results.success === false) {
 					this.$toast.error(this.results.message || 'Failed to load favorites');
 				}
-			},
-
-			// Optional: Clear search results
-			clearSearch() {
-				this.searchTerm = '';
-				this.searchResults = null;
-				this.searchAttempted = false;
-				this.error = null;
 			},
 		},
 

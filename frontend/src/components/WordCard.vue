@@ -135,8 +135,6 @@
 			isWordFavorite() {
 				const list = this.favorites || [];
 				// Compare the word value with the favorites
-
-				console.log(list);
 				return list.some((favorite) => favorite.word === this.wordData.word);
 			},
 
