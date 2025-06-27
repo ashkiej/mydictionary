@@ -34,11 +34,27 @@
 				</div>
 			</div>
 
-			<button
-				@click="$emit('save', wordData)"
-				class="bg-green-100 text-green-800 px-3 py-1 rounded-lg hover:bg-green-200 flex-shrink-0">
-				Save
-			</button>
+			<!-- Save button or check icon -->
+			<div>
+				<transition
+					name="fade-bounce"
+					mode="out-in">
+					<button
+						v-if="!isWordFavorite"
+						key="save"
+						@click="$emit('save', wordData)"
+						class="bg-green-100 text-green-800 px-3 py-1 rounded-lg hover:bg-green-200 flex-shrink-0 transition-transform duration-200 hover:scale-105">
+						Save
+					</button>
+					<span
+						v-else
+						key="check"
+						class="text-green-600 text-2xl px-3 py-1 flex items-center animate-bounce-once"
+						title="Already in favorites">
+						&#10003;
+					</span>
+				</transition>
+			</div>
 		</div>
 
 		<!-- Definitions by Part of Speech -->
@@ -103,6 +119,8 @@
 </template>
 
 <script>
+	import { mapGetters } from 'vuex';
+
 	export default {
 		props: {
 			wordData: {
@@ -111,6 +129,17 @@
 			},
 		},
 		computed: {
+			favorites() {
+				return this.$store.state.favorites.favorites.data;
+			},
+			isWordFavorite() {
+				const list = this.favorites || [];
+				// Compare the word value with the favorites
+
+				console.log(list);
+				return list.some((favorite) => favorite.word === this.wordData.word);
+			},
+
 			uniquePartsOfSpeech() {
 				if (!this.wordData.definitions) return [];
 
@@ -135,3 +164,40 @@
 		},
 	};
 </script>
+
+<style scoped>
+	.fade-bounce-enter-active,
+	.fade-bounce-leave-active {
+		transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+	}
+	.fade-bounce-enter-from,
+	.fade-bounce-leave-to {
+		opacity: 0;
+		transform: scale(0.8) translateY(-10px);
+	}
+	.fade-bounce-enter-to,
+	.fade-bounce-leave-from {
+		opacity: 1;
+		transform: scale(1) translateY(0);
+	}
+	@keyframes bounce-once {
+		0% {
+			transform: scale(1);
+		}
+		30% {
+			transform: scale(1.2);
+		}
+		50% {
+			transform: scale(0.95);
+		}
+		70% {
+			transform: scale(1.05);
+		}
+		100% {
+			transform: scale(1);
+		}
+	}
+	.animate-bounce-once {
+		animation: bounce-once 0.6s;
+	}
+</style>

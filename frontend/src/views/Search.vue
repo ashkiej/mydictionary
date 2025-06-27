@@ -103,6 +103,7 @@
 					// Handle the response data
 					if (response && response.data) {
 						this.searchResults = response.data;
+						this.loadFavorites();
 					} else {
 						this.searchResults = null;
 					}
@@ -130,6 +131,7 @@
 			async handleSaveWord(wordData) {
 				await this.$store.dispatch('favorites/addFavorite', wordData);
 				if (this.results.success) {
+					this.loadFavorites();
 					this.$toast.success(`"${wordData.word}" saved to favorites!`);
 				} else {
 					if (this.results?.message === 'Word already in favorites') {
@@ -137,6 +139,15 @@
 					} else {
 						this.$toast.error(this.results.message || 'Failed to save word');
 					}
+				}
+			},
+
+			async loadFavorites() {
+				this.loading = true;
+				await this.$store.dispatch('favorites/fetchFavorites');
+				this.loading = false;
+				if (this.results.success === false) {
+					this.$toast.error(this.results.message || 'Failed to load favorites');
 				}
 			},
 
