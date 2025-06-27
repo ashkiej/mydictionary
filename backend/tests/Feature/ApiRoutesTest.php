@@ -145,7 +145,7 @@ class ApiRoutesTest extends TestCase
         $response = $this->withHeader('Authorization', 'Bearer ' . $token)
             ->deleteJson('/api/favorites/' . $favorite->id);
 
-        $response->assertStatus(200); // Adjusted to match the expected status code based on the provided context
+        $response->assertStatus(200);
         $this->assertDatabaseMissing('favorites', ['id' => $favorite->id]);
     }
 }

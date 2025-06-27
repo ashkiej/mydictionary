@@ -57,7 +57,7 @@
 
 		<!-- Error handling -->
 		<div
-			v-if="error"
+			v-if="error && !error.includes('No definition found')"
 			class="mt-4 flex justify-center">
 			<div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded max-w-md">
 				<p class="font-medium">Search Error</p>
@@ -121,7 +121,7 @@
 					}
 
 					this.searchResults = null;
-					this.$toast.error(this.error);
+					this.$toast.warning(this.error);
 				} finally {
 					this.loading = false;
 				}
