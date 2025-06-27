@@ -1,7 +1,7 @@
 <!-- views/Favorites.vue -->
 <template>
 	<div>
-		<h1 class="text-2xl font-bold text-gray-800 mb-6">My Favorites</h1>
+		<h1 class="text-2xl font-bold text-gray-800 mb-6 px-2 max-w-2xl mx-auto">My Favorites</h1>
 
 		<div
 			v-if="loading"
@@ -17,7 +17,7 @@
 
 		<div
 			v-else
-			class="space-y-4">
+			class="space-y-4 px-2">
 			<FavoriteItem
 				v-for="favorite in favorites"
 				:key="favorite.id"

@@ -1,6 +1,6 @@
 <!-- components/FavoriteItem.vue -->
 <template>
-	<div class="bg-white rounded-lg shadow p-4">
+	<div class="bg-white rounded-lg shadow p-4 max-w-2xl mx-auto">
 		<div class="flex justify-between items-start">
 			<div class="flex-1">
 				<div class="flex items-center gap-2">
@@ -31,7 +31,7 @@
 						v-if="favorite.phonetics[0].audio"
 						:src="favorite.phonetics[0].audio"
 						controls
-						class="inline-block w-24 align-middle"></audio>
+						class="inline-block w-32 align-middle"></audio>
 				</p>
 			</div>
 			<button
@@ -118,12 +118,12 @@
 			<label class="block text-sm font-medium text-gray-700 mb-1">My Notes:</label>
 			<textarea
 				v-model="localNotes"
-				class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+				class="w-full max-w-xl px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
 				rows="2"
 				placeholder="Add your personal notes about this word..."></textarea>
 			<button
 				@click="handleUpdate"
-				class="mt-2 w-full px-3 py-2 border rounded-lg bg-blue-500 text-white hover:bg-blue-600">
+				class="mt-2 w-full max-w-xl px-3 py-2 border rounded-lg bg-blue-500 text-white hover:bg-blue-600">
 				Update Notes
 			</button>
 		</div>

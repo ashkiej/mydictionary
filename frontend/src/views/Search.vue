@@ -1,7 +1,7 @@
 <!-- views/Search.vue -->
 <template>
 	<div>
-		<div class="mb-8">
+		<div class="mb-8 px-4">
 			<div class="relative max-w-2xl mx-auto">
 				<input
 					v-model="searchTerm"
@@ -47,7 +47,7 @@
 		<!-- Initial state -->
 		<div
 			v-else
-			class="text-center py-12">
+			class="text-center py-12 px-2">
 			<div class="max-w-md mx-auto">
 				<div class="text-6xl mb-4">📚</div>
 				<h2 class="text-xl font-semibold text-gray-700 mb-2">Dictionary Search</h2>
