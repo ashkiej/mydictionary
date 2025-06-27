@@ -34,12 +34,9 @@ export default {
         },
         register({ commit }, userData) {
             return api.post('/api/auth/register', userData)
-                .then(response => {
-                    commit('SET_USER', response.data.user)
-                    return Promise.resolve(response.data)
-                })
+                .then(response => response.data)
                 .catch(error => {
-                    return Promise.reject(error)
+                    return error;
                 })
         },
         logout({ commit }) {

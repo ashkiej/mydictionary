@@ -289,28 +289,31 @@
 
 				this.isSubmitting = true;
 
-				try {
-					await this.$store.dispatch('auth/register', this.form);
+				const response = await this.$store.dispatch('auth/register', this.form);
 
-					// Redirect after successful registration
-					this.$router.push({ name: 'Dashboard' }); // Change to your desired route
-				} catch (error) {
-					// Handle API validation errors
-					if (error.response && error.response.data.errors) {
-						const apiErrors = error.response.data.errors;
+				const apiErrors = response?.response?.data?.errors || response.errors;
+				if (response && response.user && response.token) {
+					// Registration successful
+					this.$toast.success('Registration successful! You can now log in.');
+					console.log(response);
+					this.$router.push({ name: 'Login' });
+				} else if (response && apiErrors) {
+					// API validation errors\
+					if (apiErrors) {
 						for (const field in apiErrors) {
 							if (this.errors.hasOwnProperty(field)) {
 								this.errors[field] = apiErrors[field][0];
 							}
 						}
-					} else {
-						console.error('Registration error:', error);
-						// Show generic error message
-						alert('Registration failed. Please try again.');
 					}
-				} finally {
-					this.isSubmitting = false;
+				} else if (response && response.message) {
+					// Other API error messages (e.g., duplicate email)
+					this.$toast.error(response.message);
+				} else {
+					// Unknown error
+					this.$toast.error('Registration failed. Please try again.');
 				}
+				this.isSubmitting = false;
 			},
 		},
 	};
